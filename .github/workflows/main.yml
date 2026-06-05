@@ -1,0 +1,37 @@
+name: Build Android APK
+
+# Workflow ini akan berjalan otomatis setiap ada perubahan (save) di kode Anda,
+# dan juga memunculkan tombol manual untuk menjalankannya.
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Beri Izin Eksekusi Gradle
+        run: chmod +x gradlew
+
+      - name: Mulai Merakit APK (Build)
+        run: ./gradlew assembleDebug
+
+      - name: Upload Hasil APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Aplikasi-Kasir
+          path: app/build/outputs/apk/debug/app-debug.apk
+          
