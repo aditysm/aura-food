@@ -1,7 +1,5 @@
 name: Build Android APK
 
-# Workflow ini akan berjalan otomatis setiap ada perubahan (save) di kode Anda,
-# dan juga memunculkan tombol manual untuk menjalankannya.
 on:
   push:
     branches:
@@ -23,6 +21,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Buat Ulang File Gradle Wrapper yang Hilang
+        run: gradle wrapper
+
       - name: Beri Izin Eksekusi Gradle
         run: chmod +x gradlew
 
@@ -32,6 +33,5 @@ jobs:
       - name: Upload Hasil APK
         uses: actions/upload-artifact@v4
         with:
-          name: Aplikasi-Kasir
+          name: Aplikasi-Kasir-Offline
           path: app/build/outputs/apk/debug/app-debug.apk
-          
